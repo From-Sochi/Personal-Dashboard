@@ -1,5 +1,6 @@
-import { Link, Outlet } from 'react-router-dom';
-import { getTasks } from '../forStorage'
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { getTasks } from '../forStorage';
+import '../index.css';
 
 export async function loader() {
 	const tasks = await getTasks();
@@ -7,16 +8,21 @@ export async function loader() {
 }
 
 function Root() {
+	const location = useLocation();
+
+	// Функция для проверки активной ссылки
+	const isActive = (path: string) => {
+		return location.pathname.includes(path);
+	};
+
 	return (
 		<>
 			<nav>
-				<Link to={`/dashboard/1`}>Dashboard</Link>
-				<Link to={`/tasks/2`}>Tasks</Link>
-				<Link to={`/timer/3`}>Timer</Link>
-				<Link to={`/nutrition/4`}>Nutrition</Link>
+				<Link to={`/dashboard/1`} className={isActive('dashboard') ? 'active' : ''}>Dashboard</Link>
+				<Link to={`/tasks/2`} className={isActive('tasks') ? 'active' : ''}>Tasks</Link>
+				<Link to={`/timer/3`} className={isActive('timer') ? 'active' : ''}>Timer</Link>
+				<Link to={`/nutrition/4`} className={isActive('nutrition') ? 'active' : ''}>Nutrition</Link>
 			</nav>
-
-			{/* Это место где будут рендериться дочерние компоненты */}
 			<main>
 				<Outlet />
 			</main>

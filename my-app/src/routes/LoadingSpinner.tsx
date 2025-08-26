@@ -7,8 +7,6 @@ export function LoadingSpinner() {
             height: '100vh'
         }}>
             <div>Loading...</div>
-            {/* Или используйте спиннер: */}
-            {/* <div className="spinner">⚡</div> */}
         </div>
     );
 }
