@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "localforage": "^1.10.0",
+    "nanoid": "^5.1.5"
+  }
+}
