@@ -1,22 +1,22 @@
-import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import '../index.css';
 
 const initialState = [
-    { id: nanoid(), name: 'Work', done: false },
-    { id: nanoid(), name: 'Study', done: false },
-    { id: nanoid(), name: 'Shop', done: false },
+    { id: '1', name: 'Work', done: false },
+    { id: '2', name: 'Study', done: false },
+    { id: '3', name: 'Shop', done: false },
 ];
 
-type initialStateProps = {
-    id: string,
-    name: string,
-    done: boolean,
+type TaskProps = {
+    id: string;
+    name: string;
+    done: boolean;
 }
 
 function Tasks() {
-    const [taskList, setTaskList] = useState<initialStateProps[]>(initialState);
-    const [newTask, setNewTask] = useState('')
+    const [taskList, setTaskList] = useState<TaskProps[]>(initialState);
+    const [newTask, setNewTask] = useState('');
+    const nextId = useRef(4); // Начинаем с 4, так как уже есть 3 задачи
 
     let items = taskList.map((task) => {
         return (
@@ -48,10 +48,11 @@ function Tasks() {
     function addTask() {
         if (!newTask.trim()) return;
         setTaskList(prev => [...prev, {
-            id: nanoid(),
+            id: nextId.current.toString(),
             name: newTask,
             done: false,
         }]);
+        nextId.current += 1;
         setNewTask('');
     }
 
@@ -66,7 +67,7 @@ function Tasks() {
                     value={newTask}
                     className="add-task-input"
                     onChange={(e) => setNewTask(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && addTask()}
+                    onKeyDown={(e) => e.key === 'Enter' && addTask()}
                 />
                 <button className="add-task-button" onClick={addTask}>
                     Add
