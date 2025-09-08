@@ -139,7 +139,17 @@ main {
 .add-task-container {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.filter-task-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
   background: white;
   padding: 1rem;
   border-radius: 12px;
@@ -147,6 +157,15 @@ main {
 }
 
 .add-task-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #afdfbb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.filter-task-input {
   flex: 1;
   padding: 0.75rem 1rem;
   border: 2px solid #afdfbb;
@@ -643,4 +662,261 @@ button:disabled:hover {
   select {
     font-size: 16px; /* Предотвращает zoom в iOS */
   }
+}
+
+/* ===== СТИЛИ ДЛЯ ЧЕКБОКСОВ ===== */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #c3cfe2;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input[type="checkbox"]:hover {
+  border-color: #667eea;
+  transform: scale(1.05);
+}
+
+input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+}
+
+input[type="checkbox"]:checked::before {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Анимация для чекбокса */
+input[type="checkbox"] {
+  transition: all 0.2s ease-in-out;
+}
+
+/* ===== СТИЛИ ДЛЯ ВЫПАДАЮЩЕГО СПИСКА ===== */
+.filter-task-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #afdfbb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  background-image: linear-gradient(45deg, transparent 50%, #667eea 50%),
+                    linear-gradient(135deg, #667eea 50%, transparent 50%);
+  background-position: calc(100% - 20px) center, calc(100% - 15px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 40px;
+}
+
+.filter-task-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filter-task-input:hover {
+  border-color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для опций выпадающего списка */
+.filter-task-input option {
+  padding: 12px;
+  background: white;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.filter-task-input option:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.filter-task-input option:checked {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ ДЛЯ ЧЕКБОКСОВ И SELECT ===== */
+
+/* Планшеты и телефоны */
+@media (max-width: 1023px) {
+  input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+  }
+  
+  input[type="checkbox"]:checked::before {
+    font-size: 12px;
+  }
+  
+  .filter-task-input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    background-position: calc(100% - 15px) center, calc(100% - 10px) center;
+  }
+}
+
+/* Телефоны */
+@media (max-width: 767px) {
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .filter-task-input {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .task-item {
+    align-items: flex-start;
+  }
+  
+  .task-item input[type="checkbox"] {
+    margin-top: 0.2rem;
+  }
+}
+
+/* Ландшафтная ориентация для телефонов */
+@media (max-width: 900px) and (orientation: landscape) {
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+  
+  input[type="checkbox"]:checked::before {
+    font-size: 10px;
+  }
+}
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ СОСТОЯНИЙ ===== */
+
+/* Чекбокс в состоянии disabled */
+input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}
+
+/* Выпадающий список в состоянии disabled */
+.filter-task-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}
+
+/* Анимация при изменении состояния чекбокса */
+@keyframes checkboxCheck {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+input[type="checkbox"]:checked {
+  animation: checkboxCheck 0.3s ease;
+}
+
+/* Стили для группы чекбоксов в task-item */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Выполненная задача */
+.task-item input[type="checkbox"]:checked ~ .task-input {
+  text-decoration: line-through;
+  color: #a0aec0;
+  opacity: 0.7;
+}
+
+/* ===== СТИЛИ ДЛЯ FOCUS СОСТОЯНИЙ ===== */
+.filter-task-input:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* ===== СТИЛИ ДЛЯ ВАРИАНТОВ ВЫБОРА ===== */
+/* Эти стили могут не работать во всех браузерах, но улучшают внешний вид там, где поддерживаются */
+.filter-task-input optgroup {
+  background: #f7fafc;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.filter-task-input optgroup option {
+  padding-left: 20px;
+  background: white;
+}
+
+/* ===== СТИЛИ ДЛЯ ПЛЕЙСХОЛДЕРА SELECT ===== */
+.filter-task-input option[value=""][disabled] {
+  display: none;
+}
+
+/* Стили для кастомного контейнера select (если понадобится в будущем) */
+.select-container {
+  position: relative;
+  flex: 1;
+}
+
+.select-container::after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #667eea;
+  pointer-events: none;
 }

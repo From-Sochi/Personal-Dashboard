@@ -13,32 +13,55 @@ type TaskProps = {
     done: boolean;
 }
 
+type FilterOption = 'all' | 'completed' | 'active' | 'alphabet';
+
 function Tasks() {
     const [taskList, setTaskList] = useState<TaskProps[]>(initialState);
     const [newTask, setNewTask] = useState('');
-    const nextId = useRef(4); // Начинаем с 4, так как уже есть 3 задачи
+    const [filter, setFilter] = useState<FilterOption>('all');
+    const nextId = useRef(4);
 
-    let items = taskList.map((task) => {
-        return (
-            <div key={task.id} className="task-item">
-                <input
-                    type="text"
-                    value={task.name}
-                    className="task-input"
-                    onChange={(e) => handleChange(task.id, e.target.value)}
-                />
-                <button
-                    className="delete-button"
-                    onClick={() => deleteTask(task.id)}
-                >
-                    Delete ✕
-                </button>
-            </div>
-        )
-    })
+    // Функция для фильтрации и сортировки задач
+    const getFilteredAndSortedTasks = () => {
+        let filteredTasks = [...taskList];
+        
+        // Фильтрация
+        switch (filter) {
+            case 'completed':
+                filteredTasks = filteredTasks.filter(task => task.done);
+                break;
+            case 'active':
+                filteredTasks = filteredTasks.filter(task => !task.done);
+                break;
+            case 'alphabet':
+                filteredTasks = filteredTasks.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            default:
+                // 'all' - без фильтрации
+                break;
+        }
+        
+        return filteredTasks;
+    };
+
+    function checkTask(id: string) {
+        setTaskList(tasks => 
+            tasks.map(task => 
+                task.id === id ? { ...task, done: !task.done } : task
+            )
+        );
+    }
+
+    function handleFilterChange(option: FilterOption) {
+        setFilter(option);
+    }
 
     function handleChange(id: string, newName: string) {
-        setTaskList(tasks => tasks.map(task => task.id === id ? { ...task, name: newName } : task))
+        setTaskList(tasks => 
+            tasks.map(task => 
+                task.id === id ? { ...task, name: newName } : task
+            )
+        );
     }
 
     function deleteTask(id: string) {
@@ -56,9 +79,38 @@ function Tasks() {
         setNewTask('');
     }
 
+    // Получаем отфильтрованные и отсортированные задачи
+    const filteredTasks = getFilteredAndSortedTasks();
+
+    const items = filteredTasks.map((task) => {
+        return (
+            <div key={task.id} className="task-item">
+                <input
+                    type="text"
+                    value={task.name}
+                    className="task-input"
+                    onChange={(e) => handleChange(task.id, e.target.value)}
+                />
+                <input 
+                    type="checkbox" 
+                    onChange={() => checkTask(task.id)} 
+                    checked={task.done} 
+                />
+                <button
+                    className="delete-button"
+                    onClick={() => deleteTask(task.id)}
+                >
+                    Delete ✕
+                </button>
+            </div>
+        )
+    });
+
     return (
         <div className="todo-container">
-            <h1 className="todo-header">{items.length > 0 ? 'Может хватит?' : 'Накидай-ка себе задач, лентяй...'}</h1>
+            <h1 className="todo-header">
+                {taskList.length > 0 ? 'Может хватит?' : 'Накидай-ка себе задач, лентяй...'}
+            </h1>
 
             <div className="add-task-container">
                 <input
@@ -74,9 +126,32 @@ function Tasks() {
                 </button>
             </div>
 
+            {taskList.length > 0 && (
+                <>
+                    <div className="filter-task-container">
+                        <select 
+                            className='filter-task-input'
+                            value={filter}
+                            onChange={(e) => handleFilterChange(e.target.value as FilterOption)}
+                        >
+                            <option value="all">Все задачи</option>
+                            <option value="alphabet">По алфавиту</option>
+                            <option value="completed">Выполненные</option>
+                            <option value="active">Не выполненные</option>
+                        </select>
+                    </div>
+                    <hr style={{ marginBottom: '20px' }} />
+                </>
+            )}
+
             <div className="tasks-list">
                 {items.length > 0 ? items : (
-                    <div className="empty-state">Ты всё сделал, дурачок... 🎉</div>
+                    <div className="empty-state">
+                        {taskList.length === 0 
+                            ? 'Ты всё сделал, дурачок... 🎉' 
+                            : 'Нет задач по выбранному фильтру'
+                        }
+                    </div>
                 )}
             </div>
         </div>
