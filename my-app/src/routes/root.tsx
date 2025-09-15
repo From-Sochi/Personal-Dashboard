@@ -18,8 +18,8 @@ function Root() {
 	return (
 		<>
 			<nav>
-				<Link to={`/dashboard/1`} className={isActive('dashboard') ? 'active' : ''}>Dashboard</Link>
-				<Link to={`/tasks/2`} className={isActive('tasks') ? 'active' : ''}>Tasks</Link>
+				<Link to={`/dashboard/1`} className={isActive('dashboard') ? 'active' : ''}>Авторизация / аутентификация</Link>
+				<Link to={`/tasks/2`} className={isActive('tasks') ? 'active' : ''}>Tasks</Link> 
 				<Link to={`/timer/3`} className={isActive('timer') ? 'active' : ''}>Timer</Link>
 				<Link to={`/nutrition/4`} className={isActive('nutrition') ? 'active' : ''}>Nutrition</Link>
 			</nav>
