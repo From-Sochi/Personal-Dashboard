@@ -9,7 +9,7 @@ import {
 import Root, { loader as rootLoader } from './routes/root.tsx';
 import ErrorPage404 from './error-page-404.tsx';
 import Dashboard from './routes/Dashboard.tsx';
-import Tasks from './routes/tasks.tsx';
+import Tasks from './routes/Tasks.tsx';
 import Timer from './routes/Timer.tsx';
 import Nutrition from './routes/Nutrition.tsx';
 import { LoadingSpinner } from './routes/LoadingSpinner.tsx';
